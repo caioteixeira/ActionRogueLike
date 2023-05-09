@@ -4,6 +4,7 @@
 #include "CTCharacter.h"
 
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -14,9 +15,14 @@ ACTCharacter::ACTCharacter()
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
 	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->bUsePawnControlRotation = true;
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -26,16 +32,26 @@ void ACTCharacter::BeginPlay()
 	
 }
 
-void ACTCharacter::MoveForward(float value)
-{
-	AddMovementInput(GetActorForwardVector(), value);
-}
-
 // Called every frame
 void ACTCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// -- Rotation Visualization -- //
+	const float DrawScale = 100.0f;
+	const float Thickness = 5.0f;
+
+	FVector LineStart = GetActorLocation();
+	// Offset to the right of pawn
+	LineStart += GetActorRightVector() * 100.0f;
+	// Set line end in direction of the actor's forward
+	FVector ActorDirection_LineEnd = LineStart + (GetActorForwardVector() * 100.0f);
+	// Draw Actor's Direction
+	DrawDebugDirectionalArrow(GetWorld(), LineStart, ActorDirection_LineEnd, DrawScale, FColor::Yellow, false, 0.0f, 0, Thickness);
+
+	FVector ControllerDirection_LineEnd = LineStart + (GetControlRotation().Vector() * 100.0f);
+	// Draw 'Controller' Rotation ('PlayerController' that 'possessed' this character)
+	DrawDebugDirectionalArrow(GetWorld(), LineStart, ControllerDirection_LineEnd, DrawScale, FColor::Green, false, 0.0f, 0, Thickness);
 }
 
 // Called to bind functionality to input
@@ -45,7 +61,27 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACTCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ACTCharacter::MoveRight);
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
+}
+
+void ACTCharacter::MoveForward(float value)
+{
+	FRotator controlRotator = GetControlRotation();
+	controlRotator.Pitch = 0.0f;
+	controlRotator.Roll = 0.0f;
+	AddMovementInput(controlRotator.Vector(), value);
+}
+
+void ACTCharacter::MoveRight(float value)
+{
+	FRotator controlRotator = GetControlRotation();
+	controlRotator.Pitch = 0.0f;
+	controlRotator.Roll = 0.0f;
+
+	const auto right = FRotationMatrix(controlRotator).GetScaledAxis(EAxis::Y);
+	AddMovementInput(right, value);
 }
 
