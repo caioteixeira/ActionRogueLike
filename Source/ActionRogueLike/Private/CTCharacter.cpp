@@ -58,8 +58,7 @@ void ACTCharacter::Tick(float DeltaTime)
 void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-
+	
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACTCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACTCharacter::MoveRight);
 
