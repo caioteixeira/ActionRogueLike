@@ -7,5 +7,6 @@
 /IGNORE:4221
 /NODEFAULTLIB
 "T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Module.RiderLink.cpp.obj"
+"T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\RdEditorModel.Generated.cpp.obj"
 "T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Default.rc2.res"
 /OUT:"T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\UnrealEditor-RiderLink.lib"

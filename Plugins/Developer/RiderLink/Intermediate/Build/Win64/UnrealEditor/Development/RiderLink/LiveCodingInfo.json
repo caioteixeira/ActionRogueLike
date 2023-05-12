@@ -33,8 +33,8 @@
 			"UnrealLogEvent.Generated.cpp.obj",
 			"instantiations_RdEditorRoot.cpp.obj",
 			"LiveCodingModel.Generated.cpp.obj",
-			"RdEditorModel.Generated.cpp.obj",
-			"RdEditorRoot.Generated.cpp.obj"
+			"RdEditorRoot.Generated.cpp.obj",
+			"RdEditorModel.Generated.cpp.obj"
 		]
 	}
 }
