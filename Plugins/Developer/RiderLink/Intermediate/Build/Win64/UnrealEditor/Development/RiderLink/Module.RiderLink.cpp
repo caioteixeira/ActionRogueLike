@@ -30,4 +30,5 @@
 #include "T:/gh/TomLoomanUnrealCourse/ActionRogueLike/Plugins/Developer/RiderLink/Source/RiderLink/Public/Model/Library/UE4Library/UnrealLogEvent.Generated.cpp"
 #include "T:/gh/TomLoomanUnrealCourse/ActionRogueLike/Plugins/Developer/RiderLink/Source/RiderLink/Public/Model/RdEditorProtocol/instantiations_RdEditorRoot.cpp"
 #include "T:/gh/TomLoomanUnrealCourse/ActionRogueLike/Plugins/Developer/RiderLink/Source/RiderLink/Public/Model/RdEditorProtocol/LiveCodingModel/LiveCodingModel.Generated.cpp"
+#include "T:/gh/TomLoomanUnrealCourse/ActionRogueLike/Plugins/Developer/RiderLink/Source/RiderLink/Public/Model/RdEditorProtocol/RdEditorModel/RdEditorModel.Generated.cpp"
 #include "T:/gh/TomLoomanUnrealCourse/ActionRogueLike/Plugins/Developer/RiderLink/Source/RiderLink/Public/Model/RdEditorProtocol/RdEditorRoot/RdEditorRoot.Generated.cpp"
