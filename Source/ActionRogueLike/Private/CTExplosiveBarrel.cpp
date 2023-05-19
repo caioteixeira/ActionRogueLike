@@ -12,9 +12,16 @@ ACTExplosiveBarrel::ACTExplosiveBarrel()
 	PrimaryActorTick.bCanEverTick = true;
 
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
+	MeshComponent->SetSimulatePhysics(true);
 	RootComponent = MeshComponent;
 
 	RadialForceComponent = CreateDefaultSubobject<URadialForceComponent>("RadialForceComponent");
+	RadialForceComponent->SetupAttachment(MeshComponent);
+	RadialForceComponent->SetAutoActivate(false);
+
+	RadialForceComponent->Radius = 750.0f;
+	RadialForceComponent->ImpulseStrength = 400.f;
+	RadialForceComponent->bImpulseVelChange = true;
 }
 
 // Called when the game starts or when spawned
