@@ -4,10 +4,7 @@
 #include "CTItemChest.h"
 #include "Components/StaticMeshComponent.h"
 
-void ACTItemChest::Interact_Implementation(APawn* InstigatorPawn)
-{
-	LidMesh->SetRelativeRotation(FRotator(TargetPitch,0,0));
-}
+
 
 // Sets default values
 ACTItemChest::ACTItemChest()
@@ -22,6 +19,11 @@ ACTItemChest::ACTItemChest()
 
 	LidMesh = CreateDefaultSubobject<UStaticMeshComponent>("LidMesh");
 	LidMesh->SetupAttachment(BaseMesh);
+}
+
+void ACTItemChest::Interact_Implementation(APawn* InstigatorPawn)
+{
+	LidMesh->SetRelativeRotation(FRotator(TargetPitch,0,0));
 }
 
 // Called when the game starts or when spawned

@@ -3,6 +3,7 @@
 
 #include "CTCharacter.h"
 
+#include "CTInteractionComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -19,6 +20,8 @@ ACTCharacter::ACTCharacter()
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	InteractionComponent = CreateDefaultSubobject<UCTInteractionComponent>("InteractionComponent");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -67,6 +70,7 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ACTCharacter::PrimaryAttack);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACTCharacter::Jump);
+	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ACTCharacter::PrimaryInteract);
 }
 
 void ACTCharacter::MoveForward(float value)
@@ -89,6 +93,14 @@ void ACTCharacter::MoveRight(float value)
 
 void ACTCharacter::PrimaryAttack()
 {
+	PlayAnimMontage(AttackAnim);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this,
+		&ACTCharacter::PrimaryAttack_TimerElapsed, 0.2f);
+}
+
+void ACTCharacter::PrimaryAttack_TimerElapsed()
+{
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	
 	const FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
@@ -97,5 +109,13 @@ void ACTCharacter::PrimaryAttack()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
+void ACTCharacter::PrimaryInteract()
+{
+	if (InteractionComponent)
+	{
+		InteractionComponent->PrimaryInteract();
+	}
 }
 
