@@ -5,6 +5,8 @@
 
 #include "PhysicsEngine/RadialForceComponent.h"
 
+#include "DrawDebugHelpers.h"
+
 // Sets default values
 ACTExplosiveBarrel::ACTExplosiveBarrel()
 {
@@ -38,6 +40,13 @@ void ACTExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherA
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Barrel was hit"));
 
 	RadialForceComponent->FireImpulse();
+
+	UE_LOG(LogTemp, Log, TEXT("OnActorHit in Explosive Barrel"));
+
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor: %s at game time: %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
+
+	const FString CombinedString = FString::Printf(TEXT("Hit at location %s"), *Hit.ImpactPoint.ToString());
+	DrawDebugString(GetWorld(), Hit.ImpactPoint, CombinedString, nullptr, FColor::Green, 2.0f, true);
 }
 
 // Called every frame
