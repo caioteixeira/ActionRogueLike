@@ -3,6 +3,7 @@
 
 #include "CTExplosiveBarrel.h"
 
+#include "CTAttributeComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
 #include "DrawDebugHelpers.h"
@@ -47,6 +48,12 @@ void ACTExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherA
 
 	const FString CombinedString = FString::Printf(TEXT("Hit at location %s"), *Hit.ImpactPoint.ToString());
 	DrawDebugString(GetWorld(), Hit.ImpactPoint, CombinedString, nullptr, FColor::Green, 2.0f, true);
+
+	auto* attributeComponent = Cast<UCTAttributeComponent>(OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
+	if (attributeComponent)
+	{
+		attributeComponent->ApplyHealthChange(-10.f);
+	}
 }
 
 // Called every frame

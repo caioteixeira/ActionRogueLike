@@ -3,8 +3,10 @@
 
 #include "CTCharacter.h"
 
+#include "CTAttributeComponent.h"
 #include "CTInteractionComponent.h"
 #include "Camera/CameraComponent.h"
+#include "CTAttributeComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -22,6 +24,8 @@ ACTCharacter::ACTCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	InteractionComponent = CreateDefaultSubobject<UCTInteractionComponent>("InteractionComponent");
+
+	AttributeComponent = CreateDefaultSubobject<UCTAttributeComponent>("AttributeComponent");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	

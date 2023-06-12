@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CTCharacter.generated.h"
 
+class UCTAttributeComponent;
 class UCTInteractionComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -37,6 +38,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UCTInteractionComponent* InteractionComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UCTAttributeComponent* AttributeComponent;
 	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

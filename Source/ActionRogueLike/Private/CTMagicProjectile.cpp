@@ -3,6 +3,7 @@
 
 #include "CTMagicProjectile.h"
 
+#include "CTAttributeComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -14,8 +15,10 @@ ACTMagicProjectile::ACTMagicProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereComp = CreateDefaultSubobject<USphereComponent>("SphereComp");
-	RootComponent = SphereComp;
 	SphereComp->SetCollisionProfileName("Projectile");
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &ACTMagicProjectile::OnActorOverlap);
+
+	RootComponent = SphereComp;
 
 	EffectComp = CreateDefaultSubobject<UParticleSystemComponent>("EffectComp");
 	EffectComp->SetupAttachment(SphereComp);
@@ -24,6 +27,23 @@ ACTMagicProjectile::ACTMagicProjectile()
 	MovementComp->InitialSpeed = 1000.0f;
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
+}
+
+void ACTMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor)
+	{
+		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
+			OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
+		if (AttributeComponent)
+		{
+			AttributeComponent->ApplyHealthChange(-20.0f);
+
+			Destroy();
+		}
+		
+	}
 }
 
 // Called when the game starts or when spawned
