@@ -36,7 +36,7 @@ void ACTMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 	{
 		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
 			OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
-		if (AttributeComponent)
+		if (AttributeComponent && OtherActor != GetInstigator())
 		{
 			AttributeComponent->ApplyHealthChange(-20.0f);
 
