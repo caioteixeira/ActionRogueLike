@@ -74,6 +74,8 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ACTCharacter::PrimaryAttack);
+	PlayerInputComponent->BindAction("BlackHoleAttack", IE_Pressed, this, &ACTCharacter::BlackHoleAttack);
+	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &ACTCharacter::Dash);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACTCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ACTCharacter::PrimaryInteract);
 }
@@ -118,7 +120,7 @@ void ACTCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 		FVector TraceEnd = CameraComponent->GetComponentLocation() + (GetControlRotation().Vector() * 5000);
 
 		FCollisionShape Shape;
-		float Radius = 30.0f;
+		float Radius = 20.0f;
 		Shape.SetSphere(Radius);
 
 		FCollisionQueryParams Params;
@@ -147,6 +149,30 @@ void ACTCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 void ACTCharacter::PrimaryAttack_TimerElapsed()
 {
 	SpawnProjectile(ProjectileClass);
+}
+
+void ACTCharacter::BlackHoleAttack()
+{
+	PlayAnimMontage(AttackAnim);
+	GetWorldTimerManager().SetTimer(TimerHandle_BlackHoleAttack, this,
+			&ACTCharacter::BlackHoleAttack_TimerElapsed, 0.2f);
+}
+
+void ACTCharacter::BlackHoleAttack_TimerElapsed()
+{
+	SpawnProjectile(BlackHoleProjectileClass);
+}
+
+void ACTCharacter::Dash()
+{
+	PlayAnimMontage(AttackAnim);
+	GetWorldTimerManager().SetTimer(TimerHandle_Dash, this,
+			&ACTCharacter::Dash_TimerElapsed, 0.2f);
+}
+
+void ACTCharacter::Dash_TimerElapsed()
+{
+	SpawnProjectile(DashProjectileClass);
 }
 
 void ACTCharacter::PrimaryInteract()
