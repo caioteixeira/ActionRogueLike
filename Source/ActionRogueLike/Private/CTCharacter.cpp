@@ -106,7 +106,7 @@ void ACTCharacter::PrimaryAttack()
 
 void ACTCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 {
-	if (ensure(ClassToSpawn))
+	if (ensureAlways(ClassToSpawn))
 	{
 		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 		FActorSpawnParameters SpawnParams;
