@@ -9,6 +9,7 @@
 #include "CTAttributeComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ACTCharacter::ACTCharacter()
@@ -103,20 +104,49 @@ void ACTCharacter::PrimaryAttack()
 		&ACTCharacter::PrimaryAttack_TimerElapsed, 0.2f);
 }
 
-void ACTCharacter::PrimaryAttack_TimerElapsed()
+void ACTCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
 {
-	if (ensure(ProjectileClass))
+	if (ensure(ClassToSpawn))
 	{
 		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	
-		const FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
-
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		SpawnParams.Instigator = this;
-	
-		GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+
+		FHitResult Hit;
+		FVector TraceStart = CameraComponent->GetComponentLocation();
+		FVector TraceEnd = CameraComponent->GetComponentLocation() + (GetControlRotation().Vector() * 5000);
+
+		FCollisionShape Shape;
+		float Radius = 30.0f;
+		Shape.SetSphere(Radius);
+
+		FCollisionQueryParams Params;
+		Params.AddIgnoredActor(this);
+		
+		FCollisionObjectQueryParams ObjectQueryParams;
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
+
+		FRotator ProjRotation;
+		if (GetWorld()->SweepSingleByObjectType(Hit, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, Shape, Params))
+		{
+			ProjRotation = FRotationMatrix::MakeFromX(Hit.ImpactPoint - HandLocation).Rotator();
+		}
+		else
+		{
+			ProjRotation = FRotationMatrix::MakeFromX(TraceEnd - HandLocation).Rotator();
+		}
+		
+		const FTransform SpawnTM = FTransform(ProjRotation, HandLocation);
+		GetWorld()->SpawnActor<AActor>(ClassToSpawn, SpawnTM, SpawnParams);
 	}
+}
+
+void ACTCharacter::PrimaryAttack_TimerElapsed()
+{
+	SpawnProjectile(ProjectileClass);
 }
 
 void ACTCharacter::PrimaryInteract()

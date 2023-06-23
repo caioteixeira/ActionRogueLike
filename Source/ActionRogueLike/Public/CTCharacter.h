@@ -48,6 +48,7 @@ protected:
 	void MoveForward(float value);
 	void MoveRight(float value);
 	void PrimaryAttack();
+	void SpawnProjectile(TSubclassOf<AActor>);
 	void PrimaryAttack_TimerElapsed();
 
 	void PrimaryInteract();
