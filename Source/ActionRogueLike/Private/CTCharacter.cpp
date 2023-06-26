@@ -33,6 +33,13 @@ ACTCharacter::ACTCharacter()
 	bUseControllerRotationYaw = false;
 }
 
+void ACTCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	AttributeComponent->OnHealthChanged.AddDynamic(this, &ACTCharacter::OnHealthChanged);
+}
+
 // Called when the game starts or when spawned
 void ACTCharacter::BeginPlay()
 {
@@ -78,6 +85,16 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &ACTCharacter::Dash);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACTCharacter::Jump);
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ACTCharacter::PrimaryInteract);
+}
+
+void ACTCharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeComponent* OwningComponent, float newHealth,
+	float Delta)
+{
+	if (newHealth <= 0.0f && Delta < 0.0f)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		DisableInput(PC);
+	}
 }
 
 void ACTCharacter::MoveForward(float value)

@@ -9,6 +9,11 @@ UCTAttributeComponent::UCTAttributeComponent()
 	Health = 100;
 }
 
+bool UCTAttributeComponent::IsAlive() const
+{
+	return Health > 0.0f;
+}
+
 bool UCTAttributeComponent::ApplyHealthChange(float Delta)
 {
 	Health += Delta;
