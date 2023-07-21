@@ -3,25 +3,32 @@
 
 #include "AI/CTAICharacter.h"
 
-// Sets default values
+#include "AIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Perception/PawnSensingComponent.h"
+
 ACTAICharacter::ACTAICharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 }
 
-// Called when the game starts or when spawned
-void ACTAICharacter::BeginPlay()
+void ACTAICharacter::PostInitializeComponents()
 {
-	Super::BeginPlay();
-	
+	Super::PostInitializeComponents();
+
+	PawnSensingComponent->OnSeePawn.AddDynamic(this, &ACTAICharacter::OnPawnSeen);
 }
 
-// Called every frame
-void ACTAICharacter::Tick(float DeltaTime)
+void ACTAICharacter::OnPawnSeen(APawn* Pawn)
 {
-	Super::Tick(DeltaTime);
+	AAIController* AIC = Cast<AAIController>(GetController());
 
+	if (AIC)
+	{
+		UBlackboardComponent* BBComponent = AIC->GetBlackboardComponent();
+
+		BBComponent->SetValueAsObject("TargetActor", Pawn);
+
+		DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER_SPOTTED", nullptr, FColor::Blue);
+	}
 }
-

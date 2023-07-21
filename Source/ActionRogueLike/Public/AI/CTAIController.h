@@ -8,9 +8,6 @@
 
 class UBehaviorTree;
 
-/**
- * 
- */
 UCLASS()
 class ACTIONROGUELIKE_API ACTAIController : public AAIController
 {

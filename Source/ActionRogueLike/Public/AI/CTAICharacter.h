@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "CTAICharacter.generated.h"
 
+class UPawnSensingComponent;
+
 UCLASS()
 class ACTIONROGUELIKE_API ACTAICharacter : public ACharacter
 {
@@ -16,11 +18,11 @@ public:
 	ACTAICharacter();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere)
+	UPawnSensingComponent* PawnSensingComponent;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents() override;
 
+	UFUNCTION()
+	void OnPawnSeen(APawn* Pawn);
 };
