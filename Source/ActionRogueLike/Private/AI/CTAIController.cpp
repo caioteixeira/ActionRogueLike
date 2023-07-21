@@ -10,7 +10,10 @@ void ACTAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	RunBehaviorTree(BehaviorTree);
+	if (ensureMsgf(BehaviorTree, TEXT("Behavior Tree is nulltpr!, Please assign BehaviorTree in your AI controller")))
+	{
+		RunBehaviorTree(BehaviorTree);
+	}
 
 	/*APawn* MyPawn = UGameplayStatics::GetPlayerPawn(this, 0);
 
