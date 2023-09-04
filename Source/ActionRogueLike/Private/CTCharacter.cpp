@@ -90,6 +90,8 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void ACTCharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeComponent* OwningComponent, float newHealth,
 	float Delta)
 {
+	GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
+	
 	if (newHealth <= 0.0f && Delta < 0.0f)
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());
