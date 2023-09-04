@@ -2,10 +2,13 @@
 
 
 #include "CTProjectileBase.h"
+
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 ACTProjectileBase::ACTProjectileBase()
 {
@@ -23,6 +26,8 @@ ACTProjectileBase::ACTProjectileBase()
 	MovementComp->bRotationFollowsVelocity = true;
 	MovementComp->bInitialVelocityInLocalSpace = true;
 	MovementComp->ProjectileGravityScale = 0.0f;
+
+	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
 }
 
 void ACTProjectileBase::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
@@ -36,6 +41,9 @@ void ACTProjectileBase::Explode_Implementation()
 	if (ensure(!IsPendingKill()))
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(this, ImpactVFX, GetActorLocation(), GetActorRotation());
+
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), GetActorRotation(),
+			1, 1, 0, ImpactAttenuation, nullptr, GetOwner(), nullptr);
 
 		EffectComp->DeactivateSystem();
 

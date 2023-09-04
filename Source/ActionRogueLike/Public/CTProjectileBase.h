@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "CTProjectileBase.generated.h"
 
+class USoundCue;
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
@@ -31,6 +32,15 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* EffectComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAudioComponent* AudioComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundCue* ImpactSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundAttenuation* ImpactAttenuation;
 
 	UFUNCTION()
 	virtual void OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
