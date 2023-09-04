@@ -1,0 +1,71 @@
+T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\Library\UE4Library\ScriptCallStack.Generated.cpp
+/I .
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RiderLink\Private
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\Library
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RiderLink\Public\Model\RdEditorProtocol
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RiderLink\Public
+/I Runtime
+/I Runtime\TraceLog\Public
+/I Runtime\Core\Public
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_core_cpp\src\main
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_framework_cpp\src\main\util
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\src\rd_gen_cpp\src
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\ordered-map\include
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\optional\tl
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\variant\include
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\string-view-lite\include
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\spdlog\include
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\clsocket\src
+/I T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Source\RD\thirdparty\CTPL\include
+/I ThirdParty\mimalloc\include
+/I T:\AutoSDK\HostWin64\Win64\VS2019\14.29.30133\INCLUDE
+/I "T:\AutoSDK\HostWin64\Win64\Windows Kits\10\include\10.0.18362.0\ucrt"
+/I "T:\AutoSDK\HostWin64\Win64\Windows Kits\10\include\10.0.18362.0\shared"
+/I "T:\AutoSDK\HostWin64\Win64\Windows Kits\10\include\10.0.18362.0\um"
+/I "T:\AutoSDK\HostWin64\Win64\Windows Kits\10\include\10.0.18362.0\winrt"
+/FI"T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\DebugGame\RiderLink\Definitions.h"
+/Fo"T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\DebugGame\RiderLink\ScriptCallStack.Generated.cpp.obj"
+/sourceDependencies T:\gh\TomLoomanUnrealCourse\ActionRogueLike\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\DebugGame\RiderLink\ScriptCallStack.Generated.cpp.dep.json
+/Zc:inline
+/nologo
+/Oi
+/FC
+/c
+/Gw
+/Gy
+/Zm1000
+/wd4819
+/D_CRT_STDIO_LEGACY_WIDE_SPECIFIERS=1
+/D_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1
+/D_WINDLL
+/D_DISABLE_EXTENDED_ALIGNED_STORAGE
+/source-charset:utf-8
+/execution-charset:utf-8
+/Ob2
+/fastfail
+/Od
+/errorReport:prompt
+/EHsc
+/DPLATFORM_EXCEPTIONS_DISABLED=0
+/Z7
+/MD
+/bigobj
+/fp:fast
+/Zp8
+/we4456
+/we4458
+/we4459
+/wd4463
+/we4668
+/wd4244
+/wd4838
+/TP
+/GR
+/W4
+/std:c++17
