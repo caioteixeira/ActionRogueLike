@@ -29,6 +29,6 @@ void ACTAICharacter::OnPawnSeen(APawn* Pawn)
 
 		BBComponent->SetValueAsObject("TargetActor", Pawn);
 
-		DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER_SPOTTED", nullptr, FColor::Blue);
+		//DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER_SPOTTED", nullptr, FColor::Blue);
 	}
 }
