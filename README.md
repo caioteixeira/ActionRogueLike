@@ -1,2 +1,2 @@
 # ActionRogueLike
-Tom Looman's Course project
+Tom Looman's Unreal Course project
