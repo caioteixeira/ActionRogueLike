@@ -27,9 +27,10 @@ float UCTAttributeComponent::GetHealthMax()
 
 bool UCTAttributeComponent::ApplyHealthChange(float Delta)
 {
-	Health += Delta;
+	const float OldHealth = Health;
 	Health = FMath::Clamp(Health, 0.0f, HealthMax);
+	const float ActualDelta = Health - OldHealth;
 
-	OnHealthChanged.Broadcast(nullptr, this, Health, Delta);
-	return true;
+	OnHealthChanged.Broadcast(nullptr, this, Health, ActualDelta);
+	return OldHealth != 0;
 }
