@@ -4,12 +4,15 @@
 #include "AI/CTAICharacter.h"
 
 #include "AIController.h"
+#include "CTAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 ACTAICharacter::ACTAICharacter()
 {
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
+
+	AttributeComponent = CreateDefaultSubobject<UCTAttributeComponent>("AttributeComponent");
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }

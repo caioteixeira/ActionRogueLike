@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CTAICharacter.generated.h"
 
+class UCTAttributeComponent;
 class UPawnSensingComponent;
 
 UCLASS()
@@ -20,6 +21,9 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensingComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UCTAttributeComponent* AttributeComponent;
 
 	virtual void PostInitializeComponents() override;
 
