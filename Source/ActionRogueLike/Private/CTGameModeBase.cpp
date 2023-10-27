@@ -23,6 +23,34 @@ void ACTGameModeBase::StartPlay()
 
 void ACTGameModeBase::SpawnBotTimerElapsed()
 {
+	int32 NrOfAliveBots = 0;
+	for (TActorIterator<ACTAICharacter> It(GetWorld()); It; ++It)
+	{
+		ACTAICharacter* Bot = *It;
+
+		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
+			Bot->GetComponentByClass(UCTAttributeComponent::StaticClass()));
+		if (ensure(AttributeComponent) && AttributeComponent->IsAlive())
+		{
+			NrOfAliveBots++;
+		}
+	}
+
+	UE_LOG(LogTemp, Log, TEXT("Found %i alive bots."), NrOfAliveBots);
+
+	float MaxBotCount = 10.0f;
+	if (DifficultCurve)
+	{
+		MaxBotCount = DifficultCurve->GetFloatValue(GetWorld()->TimeSeconds);	
+	}
+	
+	if (NrOfAliveBots >= MaxBotCount)
+	{
+		UE_LOG(LogTemp, Log, TEXT("At maximum capacity, skipping bot spawn."));
+
+		return;
+	}
+	
 	UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(
 		this, SpawnBotQuery, this, EEnvQueryRunMode::RandomBest5Pct, nullptr);
 
@@ -40,34 +68,11 @@ void ACTGameModeBase::OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryI
 		UE_LOG(LogTemp, Warning, TEXT("Spawn Bot EQS Query failed!"));
 		return;
 	}
-
-	int32 NrOfAliveBots = 0;
-	for (TActorIterator<ACTAICharacter> It(GetWorld()); It; ++It)
-	{
-		ACTAICharacter* Bot = *It;
-
-		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
-			Bot->GetComponentByClass(UCTAttributeComponent::StaticClass()));
-		if (AttributeComponent && AttributeComponent->IsAlive())
-		{
-			NrOfAliveBots++;
-		}
-	}
-
-	float MaxBotCount = 10.0f;
-	if (DifficultCurve)
-	{
-		MaxBotCount = DifficultCurve->GetFloatValue(GetWorld()->TimeSeconds);	
-	}
-	
-	if (NrOfAliveBots >= MaxBotCount)
-	{
-		return;
-	}
 	
 	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
 	if (Locations.Num() > 0)
 	{
 		GetWorld()->SpawnActor<AActor>(MinionClass, Locations[0], FRotator::ZeroRotator);
+		DrawDebugSphere(GetWorld(), Locations[0], 50.0f, 20, FColor::Blue, false, 60.0f);
 	}
 }
