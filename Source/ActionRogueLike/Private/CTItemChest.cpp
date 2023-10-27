@@ -26,17 +26,3 @@ void ACTItemChest::Interact_Implementation(APawn* InstigatorPawn)
 	LidMesh->SetRelativeRotation(FRotator(TargetPitch,0,0));
 }
 
-// Called when the game starts or when spawned
-void ACTItemChest::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ACTItemChest::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
