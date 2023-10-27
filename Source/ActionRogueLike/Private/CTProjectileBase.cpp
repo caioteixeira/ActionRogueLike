@@ -28,6 +28,7 @@ ACTProjectileBase::ACTProjectileBase()
 	MovementComp->ProjectileGravityScale = 0.0f;
 
 	AudioComp = CreateDefaultSubobject<UAudioComponent>("AudioComp");
+	AudioComp->SetupAttachment(RootComponent);
 }
 
 void ACTProjectileBase::OnActorHit(UPrimitiveComponent* HitComponent, AActor* OtherActor,
