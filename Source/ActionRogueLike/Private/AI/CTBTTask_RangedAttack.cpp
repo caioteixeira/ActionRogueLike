@@ -13,7 +13,7 @@ EBTNodeResult::Type UCTBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& 
 
 	if (ensure(MyController))
 	{
-		const ACharacter* MyPawn = Cast<ACharacter>(MyController->GetPawn());
+		ACharacter* MyPawn = Cast<ACharacter>(MyController->GetPawn());
 
 		if (MyPawn == nullptr)
 		{
@@ -34,7 +34,8 @@ EBTNodeResult::Type UCTBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& 
 
 		FActorSpawnParameters Params;
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
+		Params.Instigator = MyPawn;
+		
 		const AActor* NewProj = GetWorld()->SpawnActor<AActor>(ProjectileClass, MuzzleLocation, MuzzleRotation, Params);
 		return NewProj ? EBTNodeResult::Succeeded : EBTNodeResult::Failed;
 	}
