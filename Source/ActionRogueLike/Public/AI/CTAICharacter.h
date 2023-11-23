@@ -26,6 +26,7 @@ protected:
 	UCTAttributeComponent* AttributeComponent;
 
 	virtual void PostInitializeComponents() override;
+	void SetTargetActor(AActor* Target) const;
 
 	UFUNCTION()
 	void OnPawnSeen(APawn* Pawn);

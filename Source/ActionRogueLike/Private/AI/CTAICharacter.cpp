@@ -27,26 +27,32 @@ void ACTAICharacter::PostInitializeComponents()
 	AttributeComponent->OnHealthChanged.AddDynamic(this, &ACTAICharacter::OnHealthChanged);
 }
 
-void ACTAICharacter::OnPawnSeen(APawn* Pawn)
+void ACTAICharacter::SetTargetActor(AActor* Target) const
 {
 	AAIController* AIC = Cast<AAIController>(GetController());
 
 	if (AIC)
 	{
 		UBlackboardComponent* BBComponent = AIC->GetBlackboardComponent();
-
-		BBComponent->SetValueAsObject("TargetActor", Pawn);
-
-		//DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER_SPOTTED", nullptr, FColor::Blue);
+		BBComponent->SetValueAsObject("TargetActor", Target);
 	}
 }
 
+void ACTAICharacter::OnPawnSeen(APawn* Pawn)
+{
+	SetTargetActor(Pawn);
+	//DrawDebugString(GetWorld(), GetActorLocation(), "PLAYER_SPOTTED", nullptr, FColor::Blue);
+}
+
 void ACTAICharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeComponent* OwningComponent, float newHealth,
-	float Delta)
+                                     float Delta)
 {
 	if (Delta < 0.0f)
 	{
-		
+		if (IsValid(InstigatorActor) && InstigatorActor != this)
+		{
+			SetTargetActor(InstigatorActor);
+		}
 
 		if (newHealth <= 0.0f)
 		{

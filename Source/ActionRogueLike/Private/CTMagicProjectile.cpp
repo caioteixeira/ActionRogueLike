@@ -23,7 +23,7 @@ void ACTMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 			OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
 		if (AttributeComponent)
 		{
-			AttributeComponent->ApplyHealthChange(-DamageAmount);
+			AttributeComponent->ApplyHealthChange(GetInstigator(), -DamageAmount);
 
 			Explode();
 		}

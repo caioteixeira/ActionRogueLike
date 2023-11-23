@@ -52,7 +52,7 @@ void ACTExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherA
 	auto* attributeComponent = Cast<UCTAttributeComponent>(OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
 	if (attributeComponent)
 	{
-		attributeComponent->ApplyHealthChange(-10.f);
+		attributeComponent->ApplyHealthChange(this, -10.f);
 	}
 }
 

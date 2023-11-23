@@ -23,7 +23,7 @@ void ACTPowerup_HealthPotion::Interact_Implementation(APawn* InstigatorPawn)
 		InstigatorPawn->GetComponentByClass(UCTAttributeComponent::StaticClass()));
 	if(ensure(AttributeComponent) && !AttributeComponent->IsFullHealth())
 	{
-		if (AttributeComponent->ApplyHealthChange(AttributeComponent->GetHealthMax()))
+		if (AttributeComponent->ApplyHealthChange(this, AttributeComponent->GetHealthMax()))
 		{
 			HideAndCooldownPowerUp();
 		}
