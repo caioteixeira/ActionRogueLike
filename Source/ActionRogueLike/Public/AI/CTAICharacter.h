@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UCTAttributeComponent* AttributeComponent;
 
+	UPROPERTY(VisibleAnywhere)
+	FName TimeToHitParameterName;
+
 	virtual void PostInitializeComponents() override;
 	void SetTargetActor(AActor* Target) const;
 

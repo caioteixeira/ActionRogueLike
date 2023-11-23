@@ -17,6 +17,8 @@ ACTAICharacter::ACTAICharacter()
 	AttributeComponent = CreateDefaultSubobject<UCTAttributeComponent>("AttributeComponent");
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	TimeToHitParameterName = "TimeToHit";
 }
 
 void ACTAICharacter::PostInitializeComponents()
@@ -53,6 +55,8 @@ void ACTAICharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeCompon
 		{
 			SetTargetActor(InstigatorActor);
 		}
+
+		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParameterName, GetWorld()->TimeSeconds);
 
 		if (newHealth <= 0.0f)
 		{
