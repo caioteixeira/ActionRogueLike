@@ -4,8 +4,14 @@
 #include "AI/CTBTTask_RangedAttack.h"
 
 #include "AIController.h"
+#include "CTAttributeComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
+
+UCTBTTask_RangedAttack::UCTBTTask_RangedAttack(): MaxBulletSpread()
+{
+	MaxBulletSpread = 2.0f;
+}
 
 EBTNodeResult::Type UCTBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
@@ -23,14 +29,22 @@ EBTNodeResult::Type UCTBTTask_RangedAttack::ExecuteTask(UBehaviorTreeComponent& 
 		const FVector MuzzleLocation = MyPawn->GetMesh()->GetSocketLocation("Muzzle_01");
 
 		const auto* BlackboardComp = OwnerComp.GetBlackboardComponent();
-		const AActor* TargetActor = Cast<AActor>(BlackboardComp->GetValueAsObject("TargetActor"));
+		AActor* TargetActor = Cast<AActor>(BlackboardComp->GetValueAsObject("TargetActor"));
 		if (TargetActor == nullptr)
 		{
 			return EBTNodeResult::Failed;
 		}
 
+		if (!UCTAttributeComponent::IsActorAlive(TargetActor))
+		{
+			return EBTNodeResult::Failed;
+		}
+
 		const FVector Direction = TargetActor->GetActorLocation() - MuzzleLocation;
-		const FRotator MuzzleRotation = Direction.Rotation();
+		FRotator MuzzleRotation = Direction.Rotation();
+
+		MuzzleRotation.Pitch += FMath::RandRange(0.0f, MaxBulletSpread);
+		MuzzleRotation.Yaw += FMath::RandRange(-MaxBulletSpread, MaxBulletSpread);
 
 		FActorSpawnParameters Params;
 		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
