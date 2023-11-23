@@ -27,9 +27,7 @@ void ACTGameModeBase::SpawnBotTimerElapsed()
 	for (TActorIterator<ACTAICharacter> It(GetWorld()); It; ++It)
 	{
 		ACTAICharacter* Bot = *It;
-
-		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
-			Bot->GetComponentByClass(UCTAttributeComponent::StaticClass()));
+		const UCTAttributeComponent* AttributeComponent = UCTAttributeComponent::GetAttributeComponent(Bot);
 		if (ensure(AttributeComponent) && AttributeComponent->IsAlive())
 		{
 			NrOfAliveBots++;

@@ -15,7 +15,13 @@ class ACTIONROGUELIKE_API UCTAttributeComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	UFUNCTION(BlueprintCallable, Category="Attributes")
+	static UCTAttributeComponent* GetAttributeComponent(AActor* FromActor);
+
+	UFUNCTION(BlueprintCallable, Category="Attributes", meta = (DisplayName = "IsAlive"))
+	static bool IsActorAlive(AActor* Actor);
+	
 	// Sets default values for this component's properties
 	UCTAttributeComponent();
 
