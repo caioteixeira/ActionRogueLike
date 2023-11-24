@@ -21,17 +21,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Attributes", meta = (DisplayName = "IsAlive"))
 	static bool IsActorAlive(AActor* Actor);
-	
-	// Sets default values for this component's properties
-	UCTAttributeComponent();
-
-protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
 	float Health;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
 	float HealthMax;
+	
+	// Sets default values for this component's properties
+	UCTAttributeComponent();
 
 public:
 	UFUNCTION(BlueprintCallable)

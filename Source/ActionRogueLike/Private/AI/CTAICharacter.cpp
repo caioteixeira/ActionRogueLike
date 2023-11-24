@@ -6,8 +6,10 @@
 #include "AIController.h"
 #include "BrainComponent.h"
 #include "CTAttributeComponent.h"
+#include "CTWorldUserWidget.h"
 #include "AI/CTAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Blueprint/UserWidget.h"
 #include "Perception/PawnSensingComponent.h"
 
 ACTAICharacter::ACTAICharacter()
@@ -54,6 +56,17 @@ void ACTAICharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeCompon
 		if (IsValid(InstigatorActor) && InstigatorActor != this)
 		{
 			SetTargetActor(InstigatorActor);
+		}
+
+		if (!IsValid(ActiveHealthBar))
+		{
+			ActiveHealthBar = CreateWidget<UCTWorldUserWidget>(GetWorld(), HealthBarWidgetClass);
+
+			if (IsValid(ActiveHealthBar))
+			{
+				ActiveHealthBar->AttachedActor = this;
+				ActiveHealthBar->AddToViewport();
+			}
 		}
 
 		GetMesh()->SetScalarParameterValueOnMaterials(TimeToHitParameterName, GetWorld()->TimeSeconds);

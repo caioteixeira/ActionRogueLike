@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CTAICharacter.generated.h"
 
+class UCTWorldUserWidget;
 class UCTAttributeComponent;
 class UPawnSensingComponent;
 
@@ -19,6 +20,9 @@ public:
 	ACTAICharacter();
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
+	UCTWorldUserWidget* ActiveHealthBar;
+	
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensingComponent;
 
@@ -27,6 +31,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	FName TimeToHitParameterName;
+
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UCTWorldUserWidget> HealthBarWidgetClass;
 
 	virtual void PostInitializeComponents() override;
 	void SetTargetActor(AActor* Target) const;
