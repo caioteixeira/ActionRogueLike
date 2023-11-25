@@ -27,16 +27,15 @@ ACTExplosiveBarrel::ACTExplosiveBarrel()
 	RadialForceComponent->bImpulseVelChange = true;
 }
 
-// Called when the game starts or when spawned
-void ACTExplosiveBarrel::BeginPlay()
+void ACTExplosiveBarrel::PostInitializeComponents()
 {
-	Super::BeginPlay();
+	Super::PostInitializeComponents();
 
 	MeshComponent->OnComponentHit.AddDynamic(this, &ACTExplosiveBarrel::OnHit);
 }
 
 void ACTExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	FVector NormalImpulse, const FHitResult& Hit)
+                               FVector NormalImpulse, const FHitResult& Hit)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Barrel was hit"));
 

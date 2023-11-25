@@ -24,9 +24,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	URadialForceComponent* RadialForceComponent;
-	
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+
+	virtual void PostInitializeComponents() override;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
