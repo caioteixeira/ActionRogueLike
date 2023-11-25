@@ -49,10 +49,10 @@ void ACTExplosiveBarrel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherA
 	const FString CombinedString = FString::Printf(TEXT("Hit at location %s"), *Hit.ImpactPoint.ToString());
 	DrawDebugString(GetWorld(), Hit.ImpactPoint, CombinedString, nullptr, FColor::Green, 2.0f, true);
 
-	auto* attributeComponent = Cast<UCTAttributeComponent>(OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
-	if (attributeComponent)
+	auto* AttributeComponent = UCTAttributeComponent::GetAttributeComponent(OtherActor);
+	if (IsValid(AttributeComponent))
 	{
-		attributeComponent->ApplyHealthChange(this, -10.f);
+		AttributeComponent->ApplyHealthChange(this, -10.f);
 	}
 }
 
