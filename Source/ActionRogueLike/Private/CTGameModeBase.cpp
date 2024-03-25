@@ -21,6 +21,19 @@ void ACTGameModeBase::StartPlay()
 		TimerHandle_SpawnBots, this, &ACTGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
 }
 
+void ACTGameModeBase::KillAll()
+{
+	for (TActorIterator<ACTAICharacter> It(GetWorld()); It; ++It)
+	{
+		ACTAICharacter* Bot = *It;
+		UCTAttributeComponent* AttributeComponent = UCTAttributeComponent::GetAttributeComponent(Bot);
+		if (ensure(AttributeComponent) && AttributeComponent->IsAlive())
+		{
+			AttributeComponent->Kill(this); // @fixme: pass player for kill credit
+		}
+	}
+}
+
 void ACTGameModeBase::SpawnBotTimerElapsed()
 {
 	int32 NrOfAliveBots = 0;

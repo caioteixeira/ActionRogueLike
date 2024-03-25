@@ -87,8 +87,13 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ACTCharacter::PrimaryInteract);
 }
 
+void ACTCharacter::HealSelf(float Amount)
+{
+	AttributeComponent->ApplyHealthChange(this, Amount);
+}
+
 void ACTCharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeComponent* OwningComponent, float newHealth,
-	float Delta)
+                                   float Delta)
 {
 	GetMesh()->SetScalarParameterValueOnMaterials("TimeToHit", GetWorld()->TimeSeconds);
 	

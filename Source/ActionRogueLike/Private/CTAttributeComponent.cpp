@@ -10,6 +10,11 @@ UCTAttributeComponent::UCTAttributeComponent()
 	HealthMax = 150;
 }
 
+bool UCTAttributeComponent::Kill(AActor* InstigatorActor)
+{
+	return ApplyHealthChange(InstigatorActor, -GetHealthMax());
+}
+
 bool UCTAttributeComponent::IsAlive() const
 {
 	return Health > 0.0f;
@@ -27,6 +32,11 @@ float UCTAttributeComponent::GetHealthMax()
 
 bool UCTAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
 {
+	if (Delta < 0.0f && !GetOwner()->CanBeDamaged())
+	{
+		return false;
+	}
+	
 	const float OldHealth = Health;
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
