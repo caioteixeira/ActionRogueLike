@@ -4,6 +4,7 @@
 #include "CTGameModeBase.h"
 
 #include "CTAttributeComponent.h"
+#include "CTCharacter.h"
 #include "EngineUtils.h"
 #include "AI/CTAICharacter.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
@@ -19,6 +20,22 @@ void ACTGameModeBase::StartPlay()
 
 	GetWorldTimerManager().SetTimer(
 		TimerHandle_SpawnBots, this, &ACTGameModeBase::SpawnBotTimerElapsed, SpawnTimerInterval, true);
+}
+
+void ACTGameModeBase::OnActorKilled(AActor* VictimActor, AActor* Killer)
+{
+	ACTCharacter* Player = Cast<ACTCharacter>(VictimActor);
+	if (Player)
+	{
+		FTimerHandle TimerHandle_RespawnDelay;
+
+		FTimerDelegate Delegate;
+		Delegate.BindUFunction(this, "RespawnPlayerElapsed", Player->GetController());
+
+		constexpr float RespawnDelay = 2.0f;
+		GetWorldTimerManager().SetTimer(TimerHandle_RespawnDelay, Delegate, RespawnDelay, false);
+	}
+	UE_LOG(LogTemp, Log, TEXT("OnActorKilled: Victim %s, Killer %s"), *GetNameSafe(VictimActor), *GetNameSafe(Killer));
 }
 
 void ACTGameModeBase::KillAll()
@@ -68,6 +85,15 @@ void ACTGameModeBase::SpawnBotTimerElapsed()
 	if (ensure(QueryInstance))
 	{
 		QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ACTGameModeBase::OnQueryCompleted);
+	}
+}
+
+void ACTGameModeBase::RespawnPlayerElapsed(AController* Controller)
+{
+	if (ensure(Controller))
+	{
+		Controller->UnPossess();
+		RestartPlayer(Controller);
 	}
 }
 

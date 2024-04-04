@@ -3,6 +3,8 @@
 
 #include "CTAttributeComponent.h"
 
+#include "CTGameModeBase.h"
+
 // Sets default values for this component's properties
 UCTAttributeComponent::UCTAttributeComponent()
 {
@@ -41,8 +43,18 @@ bool UCTAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	Health = FMath::Clamp(Health + Delta, 0.0f, HealthMax);
 	const float ActualDelta = Health - OldHealth;
 
+	// Died
+	if (ActualDelta < 0.0f && Health == 0.0f)
+	{
+		ACTGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ACTGameModeBase>();
+		if (GameMode)
+		{
+			GameMode->OnActorKilled(GetOwner(), InstigatorActor);
+		}
+	}
+
 	OnHealthChanged.Broadcast(InstigatorActor, this, Health, ActualDelta);
-	return OldHealth != 0;
+	return ActualDelta != 0;
 }
 
 UCTAttributeComponent* UCTAttributeComponent::GetAttributeComponent(AActor* FromActor)

@@ -24,6 +24,8 @@ public:
 
 	virtual void StartPlay() override;
 
+	virtual void OnActorKilled(AActor* VictimActor, AActor* Killer);
+
 	UFUNCTION(Exec)
 	void KillAll();
 
@@ -47,4 +49,7 @@ protected:
 
 	UFUNCTION()
 	void SpawnBotTimerElapsed();
+
+	UFUNCTION()
+	void RespawnPlayerElapsed(AController* Controller);
 };
