@@ -207,3 +207,8 @@ void ACTCharacter::PrimaryInteract()
 	}
 }
 
+FVector ACTCharacter::GetPawnViewLocation() const
+{
+	return CameraComponent->GetComponentLocation();
+}
+

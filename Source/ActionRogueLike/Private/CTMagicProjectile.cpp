@@ -4,6 +4,7 @@
 #include "CTMagicProjectile.h"
 
 #include "CTAttributeComponent.h"
+#include "CTGamePlayFunctionLibrary.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -19,15 +20,19 @@ void ACTMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent
 {
 	if (OtherActor && OtherActor != GetInstigator())
 	{
-		UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
+		/*UCTAttributeComponent* AttributeComponent = Cast<UCTAttributeComponent>(
 			OtherActor->GetComponentByClass(UCTAttributeComponent::StaticClass()));
 		if (AttributeComponent)
 		{
 			AttributeComponent->ApplyHealthChange(GetInstigator(), -DamageAmount);
 
 			Explode();
+		}*/
+
+		if (UCTGamePlayFunctionLibrary::ApplyDirectionalDamage(GetInstigator(), OtherActor, DamageAmount, SweepResult))
+		{
+			Explode();
 		}
-		
 	}
 }
 

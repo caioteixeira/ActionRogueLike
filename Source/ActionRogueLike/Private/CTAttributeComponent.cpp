@@ -5,6 +5,10 @@
 
 #include "CTGameModeBase.h"
 
+static TAutoConsoleVariable<float> CVarDamageMultiplier(TEXT("su.DamageMultiplier"), 1.0f,
+	TEXT("Global damage multiplier for attribute component"), ECVF_Cheat);
+
+
 // Sets default values for this component's properties
 UCTAttributeComponent::UCTAttributeComponent()
 {
@@ -37,6 +41,12 @@ bool UCTAttributeComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	if (Delta < 0.0f && !GetOwner()->CanBeDamaged())
 	{
 		return false;
+	}
+
+	if (Delta < 0.0f)
+	{
+		const float DamageMultiplier = CVarDamageMultiplier.GetValueOnGameThread();
+		Delta *= DamageMultiplier;
 	}
 	
 	const float OldHealth = Health;

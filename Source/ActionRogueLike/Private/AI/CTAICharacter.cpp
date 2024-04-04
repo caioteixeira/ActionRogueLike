@@ -10,6 +10,8 @@
 #include "AI/CTAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Perception/PawnSensingComponent.h"
 
 ACTAICharacter::ACTAICharacter()
@@ -19,6 +21,9 @@ ACTAICharacter::ACTAICharacter()
 	AttributeComponent = CreateDefaultSubobject<UCTAttributeComponent>("AttributeComponent");
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(true);
 
 	TimeToHitParameterName = "TimeToHit";
 }
@@ -83,6 +88,9 @@ void ACTAICharacter::OnHealthChanged(AActor* InstigatorActor, UCTAttributeCompon
 			// ragdoll
 			GetMesh()->SetAllBodiesSimulatePhysics(true);
 			GetMesh()->SetCollisionProfileName("Ragdoll");
+
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			GetCharacterMovement()->DisableMovement();
 
 			// set lifespan
 			SetLifeSpan(10.0f);
