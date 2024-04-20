@@ -23,24 +23,6 @@ public:
 	ACTCharacter();
 
 protected:
-	UPROPERTY(EditAnywhere, Category="Attack");
-	TSubclassOf<AActor> ProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category="Attack");
-	TSubclassOf<AActor> BlackHoleProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category="Attack");
-	TSubclassOf<AActor> DashProjectileClass;
-
-	UPROPERTY(EditAnywhere, Category="Attack")
-	UAnimMontage* AttackAnim;
-
-	FTimerHandle TimerHandle_PrimaryAttack;
-
-	FTimerHandle TimerHandle_Dash;
-
-	FTimerHandle TimerHandle_BlackHoleAttack;
-	
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComponent;
 
@@ -69,13 +51,9 @@ protected:
 	void SprintStart();
 	void SprintStop();
 	
-	void SpawnProjectile(TSubclassOf<AActor>);
 	void PrimaryAttack();
-	void PrimaryAttack_TimerElapsed();
 	void BlackHoleAttack();
-	void BlackHoleAttack_TimerElapsed();
 	void Dash();
-	void Dash_TimerElapsed();
 
 	void PrimaryInteract();
 

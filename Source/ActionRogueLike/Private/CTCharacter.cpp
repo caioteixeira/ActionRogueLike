@@ -7,15 +7,13 @@
 #include "CTAttributeComponent.h"
 #include "CTInteractionComponent.h"
 #include "Camera/CameraComponent.h"
-#include "CTAttributeComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ACTCharacter::ACTCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
@@ -140,79 +138,18 @@ void ACTCharacter::SprintStop()
 
 void ACTCharacter::PrimaryAttack()
 {
-	PlayAnimMontage(AttackAnim);
-
-	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this,
-		&ACTCharacter::PrimaryAttack_TimerElapsed, 0.2f);
-}
-
-void ACTCharacter::SpawnProjectile(TSubclassOf<AActor> ClassToSpawn)
-{
-	if (ensureAlways(ClassToSpawn))
-	{
-		FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		SpawnParams.Instigator = this;
-
-		FHitResult Hit;
-		FVector TraceStart = CameraComponent->GetComponentLocation();
-		FVector TraceEnd = CameraComponent->GetComponentLocation() + (GetControlRotation().Vector() * 5000);
-
-		FCollisionShape Shape;
-		float Radius = 20.0f;
-		Shape.SetSphere(Radius);
-
-		FCollisionQueryParams Params;
-		Params.AddIgnoredActor(this);
-		
-		FCollisionObjectQueryParams ObjectQueryParams;
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldDynamic);
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
-		ObjectQueryParams.AddObjectTypesToQuery(ECC_Pawn);
-
-		FRotator ProjRotation;
-		if (GetWorld()->SweepSingleByObjectType(Hit, TraceStart, TraceEnd, FQuat::Identity, ObjectQueryParams, Shape, Params))
-		{
-			ProjRotation = FRotationMatrix::MakeFromX(Hit.ImpactPoint - HandLocation).Rotator();
-		}
-		else
-		{
-			ProjRotation = FRotationMatrix::MakeFromX(TraceEnd - HandLocation).Rotator();
-		}
-		
-		const FTransform SpawnTM = FTransform(ProjRotation, HandLocation);
-		GetWorld()->SpawnActor<AActor>(ClassToSpawn, SpawnTM, SpawnParams);
-	}
-}
-
-void ACTCharacter::PrimaryAttack_TimerElapsed()
-{
-	SpawnProjectile(ProjectileClass);
+	ActionComponent->StartActionByName(this, "PrimaryAttack");
 }
 
 void ACTCharacter::BlackHoleAttack()
 {
-	PlayAnimMontage(AttackAnim);
-	GetWorldTimerManager().SetTimer(TimerHandle_BlackHoleAttack, this,
-			&ACTCharacter::BlackHoleAttack_TimerElapsed, 0.2f);
-}
-
-void ACTCharacter::BlackHoleAttack_TimerElapsed()
-{
-	SpawnProjectile(BlackHoleProjectileClass);
+	ActionComponent->StartActionByName(this, "BlackHole");
 }
 
 void ACTCharacter::Dash()
 {
-	PlayAnimMontage(AttackAnim);
-	GetWorldTimerManager().SetTimer(TimerHandle_Dash, this,
-			&ACTCharacter::Dash_TimerElapsed, 0.2f);
-}
+	ActionComponent->StartActionByName(this, "Dash");
 
-void ACTCharacter::Dash_TimerElapsed()
-{
-	SpawnProjectile(DashProjectileClass);
 }
 
 void ACTCharacter::PrimaryInteract()

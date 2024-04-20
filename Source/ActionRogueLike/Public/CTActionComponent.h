@@ -28,6 +28,9 @@ public:
 	bool StopActionByName(AActor* Instigator, FName ActionName);
 
 protected:
+	UPROPERTY(EditAnywhere, Category="Actions")
+	TArray<TSubclassOf<UCTAction>> DefaultActions;
+	
 	UPROPERTY()
 	TArray<UCTAction*> Actions; 
 	

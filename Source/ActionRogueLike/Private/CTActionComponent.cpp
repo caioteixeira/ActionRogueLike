@@ -14,6 +14,11 @@ UCTActionComponent::UCTActionComponent()
 void UCTActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	for (TSubclassOf<UCTAction> ActionClass : DefaultActions)
+	{
+		AddAction(ActionClass);
+	}
 }
 
 void UCTActionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
