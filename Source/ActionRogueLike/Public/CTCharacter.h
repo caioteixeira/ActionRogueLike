@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CTCharacter.generated.h"
 
+class UCTActionComponent;
 class UCTAttributeComponent;
 class UCTInteractionComponent;
 class USpringArmComponent;
@@ -52,16 +53,21 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
 	UCTAttributeComponent* AttributeComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components")
+	UCTActionComponent* ActionComponent;
+
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, UCTAttributeComponent* OwningComponent, float newHealth, float Delta);
 
 	virtual void PostInitializeComponents() override;
 	
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void MoveForward(float value);
 	void MoveRight(float value);
+
+	void SprintStart();
+	void SprintStop();
 	
 	void SpawnProjectile(TSubclassOf<AActor>);
 	void PrimaryAttack();

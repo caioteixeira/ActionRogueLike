@@ -3,6 +3,7 @@
 
 #include "CTCharacter.h"
 
+#include "CTActionComponent.h"
 #include "CTAttributeComponent.h"
 #include "CTInteractionComponent.h"
 #include "Camera/CameraComponent.h"
@@ -27,6 +28,7 @@ ACTCharacter::ACTCharacter()
 	InteractionComponent = CreateDefaultSubobject<UCTInteractionComponent>("InteractionComponent");
 
 	AttributeComponent = CreateDefaultSubobject<UCTAttributeComponent>("AttributeComponent");
+	ActionComponent = CreateDefaultSubobject<UCTActionComponent>("ActionComponent");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -84,6 +86,10 @@ void ACTCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("BlackHoleAttack", IE_Pressed, this, &ACTCharacter::BlackHoleAttack);
 	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &ACTCharacter::Dash);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACTCharacter::Jump);
+
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ACTCharacter::SprintStart);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ACTCharacter::SprintStop);	
+	
 	PlayerInputComponent->BindAction("PrimaryInteract", IE_Pressed, this, &ACTCharacter::PrimaryInteract);
 }
 
@@ -120,6 +126,16 @@ void ACTCharacter::MoveRight(float value)
 
 	const auto right = FRotationMatrix(controlRotator).GetScaledAxis(EAxis::Y);
 	AddMovementInput(right, value);
+}
+
+void ACTCharacter::SprintStart()
+{
+	ActionComponent->StartActionByName(this, "Sprint");
+}
+
+void ACTCharacter::SprintStop()
+{
+	ActionComponent->StopActionByName(this, "Sprint");
 }
 
 void ACTCharacter::PrimaryAttack()
